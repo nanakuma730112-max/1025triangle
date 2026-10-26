@@ -1,1 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>三角関数の方程式・不等式を学ぼう</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>三角関数の方程式・不等式を学ぼう</h1>
+  <div class="tools">
+    <div class="seg" role="group" aria-label="角度の表記">
+      <button type="button" data-rad="0" aria-pressed="true">度数法</button>
+      <button type="button" data-rad="1" aria-pressed="false">弧度法</button>
+    </div>
+    <button id="guideBtn" type="button">操作ガイド</button>
+  </div>
+</header>
 
+<nav class="tabs" role="tablist">
+  <button role="tab" type="button" data-tab="eq" aria-selected="true">方程式</button>
+  <button role="tab" type="button" data-tab="in" aria-selected="false">不等式</button>
+</nav>
+
+<section class="card sel" aria-label="問題の設定">
+  <div class="seg" id="fSeg" role="group" aria-label="三角関数">
+    <button type="button" data-f="sin" aria-pressed="true">sin</button>
+    <button type="button" data-f="cos" aria-pressed="false">cos</button>
+    <button type="button" data-f="tan" aria-pressed="false">tan</button>
+  </div>
+  <label id="opWrap" hidden>不等号
+    <select id="op">
+      <option value=">=">≧</option><option value=">">＞</option>
+      <option value="<=">≦</option><option value="<">＜</option>
+    </select>
+  </label>
+  <label>右辺の値 a <select id="rhs"></select></label>
+  <span class="hintline">三角関数・不等号・値を選ぶと問題が変わります。</span>
+</section>
+
+<section id="problem" class="card show" aria-live="polite"></section>
+
+<main>
+  <div class="cvwrap">
+    <canvas id="cv" tabindex="0" aria-label="単位円。点Pをドラッグして角度を変えます。矢印キーでも操作できます。"></canvas>
+  </div>
+
+  <div class="side">
+    <div class="card">
+      <div id="angleOut" class="big"></div>
+      <div id="valOut" class="big"></div>
+      <div id="rhsOut" class="big"></div>
+      <div id="status" class="status" aria-live="polite"></div>
+      <label class="sl">角度
+        <input id="slider" type="range" min="0" max="360" step="1" aria-label="角度のスライダー">
+      </label>
+      <div class="row">
+        <label>θ＝ <input id="angIn" type="text" size="7" aria-label="角度を入力"></label>
+        <span id="angUnit"></span>
+        <button id="angSet" type="button">移動</button>
+      </div>
+      <div class="row steps">
+        <button type="button" data-step="-15"></button>
+        <button type="button" data-step="-1"></button>
+        <button type="button" data-step="1"></button>
+        <button type="button" data-step="15"></button>
+      </div>
+    </div>
+
+    <div class="card actions">
+      <button id="revealBtn" type="button" class="primary">解答を確認</button>
+      <button id="nextBtn" type="button">次の問題</button>
+      <button id="resetBtn" type="button">リセット</button>
+    </div>
+
+    <div id="solBox" class="card sol" hidden aria-live="polite"></div>
+  </div>
+</main>
+
+<div id="modal" class="modal" hidden>
+  <div class="modal-body" role="dialog" aria-modal="true" aria-labelledby="gTitle">
+    <h2 id="gTitle">操作ガイド</h2>
+    <ul>
+      <li><b>点Pの動かし方：</b>単位円上の点Pをドラッグ（タッチ）します。スライダー、数値入力、増減ボタンでも動かせます。代表角（30°、45°、60°など）の近くでは自動的にその角度に合います。</li>
+      <li><b>角度の見方：</b>x軸の正の向きから反時計回りに測った角がθです。0°と360°は同じ位置です。</li>
+      <li><b>sin・cos・tan：</b>sinθは点Pの<b>y座標</b>、cosθは点Pの<b>x座標</b>です。tanθは半径をのばして直線 x＝1 と交わる点の高さ（sinθ／cosθ）で、cosθ＝0 のときは定義されません。</li>
+      <li><b>方程式：</b>点Pを動かして、現在の値が右辺 a と等しくなる位置を探します。「解答を確認」で、解となる点（橙色）と角度がすべて表示されます。</li>
+      <li><b>不等式：</b>青く色付けされた範囲が条件を満たす部分です。●は境界を含み、○は含みません。点Pを動かすと、条件を満たしているかどうかが表示されます。「解答を確認」で解の範囲が表示されます。</li>
+      <li><b>度数法・弧度法：</b>右上のボタンで切り替えます。点の位置や解は変わらず、表記だけが変わります。</li>
+      <li><b>ボタン：</b>「次の問題」でランダムな新しい問題、「リセット」で点Pと解答表示を最初の状態に戻します。</li>
+    </ul>
+    <button id="closeGuide" type="button" class="primary">閉じる</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
